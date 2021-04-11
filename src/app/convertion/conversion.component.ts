@@ -3,11 +3,21 @@ import {ConversionService} from '../services/conversion.service';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
+export interface IConversion {
+  initialValue: number | undefined;
+  fixedRate: number;
+  customRate: number | undefined;
+  initialCurrencySymbol: string;
+  resultCurrencySymbol: string;
+  resultValue: number;
+}
+
 @Component({
   selector: 'app-conversion',
   templateUrl: './conversion.component.html',
   styleUrls: ['./conversion.component.scss']
 })
+
 export class ConversionComponent implements OnInit, OnDestroy {
   private $destroy = new Subject();
   valueToConvert: number | undefined;
@@ -19,6 +29,7 @@ export class ConversionComponent implements OnInit, OnDestroy {
   initialCurrencySymbol = 'euro_symbol';
   resultCurrency = '$';
   resultCurrencySymbol = 'attach_money';
+  conversionHistory: IConversion[] = [];
 
   constructor(
     private conversionService: ConversionService
@@ -32,7 +43,34 @@ export class ConversionComponent implements OnInit, OnDestroy {
   }
 
   convertedValue(valueToConvert: number | undefined, currentFixedRate: number, customRate: number | undefined): number | string {
-    return this.conversionService.convert(valueToConvert, currentFixedRate, customRate);
+    const conversion = this.conversionService.convert(valueToConvert, currentFixedRate, customRate);
+    if (conversion !== 0) {
+      this.addToConversionHistory(conversion);
+    }
+    return conversion;
+  }
+
+  addToConversionHistory(resultValue: number): void {
+    const conversion: IConversion = {
+      initialValue: this.valueToConvert,
+      fixedRate: this.fixedRate,
+      customRate: this.customRate,
+      initialCurrencySymbol: this.initialCurrencySymbol,
+      resultCurrencySymbol: this.resultCurrencySymbol,
+      resultValue
+    };
+
+    if (this.conversionHistory.length) {
+      const lastConversion = this.conversionHistory[this.conversionHistory.length - 1];
+      if (lastConversion.resultValue !== resultValue) {
+        if (this.conversionHistory.length >= 5) {
+          this.conversionHistory.shift();
+        }
+        this.conversionHistory.push(conversion);
+      }
+    } else {
+      this.conversionHistory.push(conversion);
+    }
   }
 
   swapCurrency(): void {
