@@ -7,9 +7,9 @@
       <div class="content" fxLayout="row" fxFlexFill>
         <div class="item" fxFlex="30">
           <mat-form-field class="input-item">
-            <mat-label>€</mat-label>
+            <mat-label>{{initialCurrency}}</mat-label>
             <input matInput name="valueToConvert" [(ngModel)]="valueToConvert" [value]="valueToConvert | number">
-            <mat-icon matSuffix>euro_symbol</mat-icon>
+            <mat-icon matSuffix>{{initialCurrencySymbol}}</mat-icon>
           </mat-form-field>
         </div>
 
@@ -27,14 +27,14 @@
 
         <div class="item" fxFlex="3O">
           <mat-form-field class="input-item">
-            <mat-label>$</mat-label>
+            <mat-label>{{resultCurrency}}</mat-label>
             <input matInput name="resultValue" [value]="convertedValue(valueToConvert, currentFixedRate, customRate) | number" disabled/>
-            <mat-icon matSuffix>attach_money</mat-icon>
+            <mat-icon matSuffix>{{resultCurrencySymbol}}</mat-icon>
           </mat-form-field>
         </div>
 
         <div class="item" fxFlex="10">
-          <mat-icon class="swap-icon" aria-hidden="false" aria-label="Swap currency">swap_horiz</mat-icon>
+          <mat-icon class="swap-icon" aria-hidden="false" aria-label="Swap currency" (click)="swapCurrency()">swap_horiz</mat-icon>
         </div>
 
       </div>

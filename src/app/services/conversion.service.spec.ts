@@ -14,11 +14,11 @@ describe('ConversionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('convert should return empty string', () => {
+  it('convert should return empty 0', () => {
     const valueToConvert = undefined;
     const fixedRate = 1.1;
     const customRate = undefined;
-    expect(service.convert(valueToConvert, fixedRate, customRate)).toEqual('');
+    expect(service.convert(valueToConvert, fixedRate, customRate)).toEqual(0);
   });
 
   it('convert should return empty 2.2', () => {

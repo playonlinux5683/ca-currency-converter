@@ -8,7 +8,7 @@ export class ConversionService {
   constructor() {
   }
 
-  convert(valueToConvert: number | undefined, fixedRate: number, customRate: number | undefined): number | string {
+  convert(valueToConvert: number | undefined, fixedRate: number, customRate: number | undefined): number {
     if (customRate && this.isCorrectVariation(customRate, fixedRate)) {
       return this.calculateConversion(valueToConvert, customRate);
     } else {
@@ -16,11 +16,11 @@ export class ConversionService {
     }
   }
 
-  calculateConversion(value: number | undefined, rate: number): number | string {
+  calculateConversion(value: number | undefined, rate: number): number {
     if (value && rate) {
       return value * rate;
     } else {
-      return '';
+      return 0;
     }
   }
 
