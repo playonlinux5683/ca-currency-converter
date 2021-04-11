@@ -23,7 +23,7 @@
         <div class="item" fxFlex="3O">
           <mat-form-field class="input-item">
             <mat-label>$</mat-label>
-            <input matInput name="resultValue" value="" disabled/>
+            <input matInput name="resultValue" [value]="convertedValue(valueToConvert, fixedRate) | number" disabled/>
             <mat-icon matSuffix>attach_money</mat-icon>
           </mat-form-field>
         </div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ConversionService} from '../services/conversion.service';
 
 @Component({
   selector: 'app-conversion',
@@ -6,12 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./conversion.component.scss']
 })
 export class ConversionComponent implements OnInit {
-  valueToConvert: any;
+  valueToConvert: number | undefined;
   fixedRate = 1.1;
 
-  constructor() { }
+  constructor(
+    private conversionService: ConversionService
+  ) {
+  }
 
   ngOnInit(): void {
   }
 
+  convertedValue(valueToConvert: number | undefined, fixedRate: number): number | string {
+    return this.conversionService.convert(valueToConvert, fixedRate);
+  }
 }
