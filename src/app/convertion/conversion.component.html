@@ -16,14 +16,14 @@
         <div class="item" fxFlex="30">
           <mat-form-field class="input-item">
             <mat-label>Fixed Rate</mat-label>
-            <input matInput type="number" placeholder="Fixed Rate" name="fixedRate" [(ngModel)]="fixedRate" disabled/>
+            <input matInput type="number" placeholder="Fixed Rate" name="currentFixedRate" [(ngModel)]="currentFixedRate" disabled/>
           </mat-form-field>
         </div>
 
         <div class="item" fxFlex="3O">
           <mat-form-field class="input-item">
             <mat-label>$</mat-label>
-            <input matInput name="resultValue" [value]="convertedValue(valueToConvert, fixedRate) | number" disabled/>
+            <input matInput name="resultValue" [value]="convertedValue(valueToConvert, currentFixedRate) | number" disabled/>
             <mat-icon matSuffix>attach_money</mat-icon>
           </mat-form-field>
         </div>

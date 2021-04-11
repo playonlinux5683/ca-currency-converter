@@ -1,14 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConversionService} from '../services/conversion.service';
+import {interval, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-conversion',
   templateUrl: './conversion.component.html',
   styleUrls: ['./conversion.component.scss']
 })
-export class ConversionComponent implements OnInit {
+export class ConversionComponent implements OnInit, OnDestroy {
+  private $destroy = new Subject();
   valueToConvert: number | undefined;
   fixedRate = 1.1;
+  currentFixedRate = 1.1;
+  public intervallTimer = interval(3000);
 
   constructor(
     private conversionService: ConversionService
@@ -16,9 +21,17 @@ export class ConversionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.intervallTimer.pipe(takeUntil(this.$destroy)).subscribe(() => {
+      this.currentFixedRate = this.conversionService.setFixedRate(this.fixedRate);
+    });
   }
 
-  convertedValue(valueToConvert: number | undefined, fixedRate: number): number | string {
-    return this.conversionService.convert(valueToConvert, fixedRate);
+  convertedValue(valueToConvert: number | undefined, currentFixedRate: number): number | string {
+    return this.conversionService.convert(valueToConvert, currentFixedRate);
+  }
+
+  ngOnDestroy(): void {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

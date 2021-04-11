@@ -15,4 +15,9 @@ export class ConversionService {
       return '';
     }
   }
+
+  setFixedRate(fixedRate: number): number {
+    const randomNumber = (Math.random() - 0.5) / 10;
+    return fixedRate + randomNumber;
+  }
 }
