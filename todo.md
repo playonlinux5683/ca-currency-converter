@@ -1,1 +1,2 @@
 - formattage des valeurs
+- validation des champs + affichage des erreurs
