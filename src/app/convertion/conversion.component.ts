@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ConversionService} from '../services/conversion.service';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface IConversion {
   initialValue: number | undefined;
@@ -31,6 +32,9 @@ export class ConversionComponent implements OnInit, OnDestroy {
   resultCurrencySymbol = 'attach_money';
   conversionHistory: IConversion[] = [];
 
+  displayedColumns: string[] = ['initialValue', 'fixedRate', 'customRate', 'resultValue'];
+  dataSource = new MatTableDataSource<IConversion>([]);
+
   constructor(
     private conversionService: ConversionService
   ) {
@@ -40,6 +44,7 @@ export class ConversionComponent implements OnInit, OnDestroy {
     this.intervallTimer.pipe(takeUntil(this.$destroy)).subscribe(() => {
       this.currentFixedRate = this.conversionService.setFixedRate(this.fixedRate);
     });
+    this.dataSource.data = this.conversionHistory;
   }
 
   convertedValue(valueToConvert: number | undefined, currentFixedRate: number, customRate: number | undefined): number | string {
@@ -71,6 +76,8 @@ export class ConversionComponent implements OnInit, OnDestroy {
     } else {
       this.conversionHistory.push(conversion);
     }
+
+    this.dataSource.data = this.conversionHistory;
   }
 
   swapCurrency(): void {

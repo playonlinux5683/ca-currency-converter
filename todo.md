@@ -1,2 +1,3 @@
 - formattage des valeurs
 - validation des champs + affichage des erreurs
+- affichage d'un message lorsque le tableau des historiques est vide

@@ -16,7 +16,8 @@
         <div class="item" fxFlex="30">
           <mat-form-field class="input-item">
             <mat-label>Fixed Rate</mat-label>
-            <input matInput type="number" placeholder="Fixed Rate" name="currentFixedRate" [(ngModel)]="currentFixedRate" disabled/>
+            <input matInput type="number" placeholder="Fixed Rate" name="currentFixedRate"
+                   [(ngModel)]="currentFixedRate" disabled/>
           </mat-form-field>
 
           <mat-form-field class="input-item">
@@ -28,16 +29,57 @@
         <div class="item" fxFlex="3O">
           <mat-form-field class="input-item">
             <mat-label>{{resultCurrency}}</mat-label>
-            <input matInput name="resultValue" [value]="convertedValue(valueToConvert, currentFixedRate, customRate) | number" disabled/>
+            <input matInput name="resultValue"
+                   [value]="convertedValue(valueToConvert, currentFixedRate, customRate) | number" disabled/>
             <mat-icon matSuffix>{{resultCurrencySymbol}}</mat-icon>
           </mat-form-field>
         </div>
 
         <div class="item" fxFlex="10">
-          <mat-icon class="swap-icon" aria-hidden="false" aria-label="Swap currency" (click)="swapCurrency()">swap_horiz</mat-icon>
+          <mat-icon class="swap-icon" aria-hidden="false" aria-label="Swap currency" (click)="swapCurrency()">
+            swap_horiz
+          </mat-icon>
         </div>
 
       </div>
     </form>
+
+    <div class="conversion-history">
+      <h2>Conversion History</h2>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="conversionHistory.length">
+
+        <ng-container matColumnDef="initialValue">
+          <th mat-header-cell *matHeaderCellDef> Initial Value</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.initialValue}} <mat-icon class="table-icon">{{element.initialCurrencySymbol}}</mat-icon>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="fixedRate">
+          <th mat-header-cell *matHeaderCellDef> Fixed Rate</th>
+          <td mat-cell *matCellDef="let element"> {{element.fixedRate}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="customRate">
+          <th mat-header-cell *matHeaderCellDef> Custom Rate</th>
+          <td mat-cell *matCellDef="let element"> {{element.customRate}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="resultValue">
+          <th mat-header-cell *matHeaderCellDef> Result Value</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.resultValue}} <mat-icon class="table-icon">{{element.resultCurrencySymbol}}</mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
   </mat-card-content>
 </mat-card>
+
