@@ -14,6 +14,7 @@ export class ConversionComponent implements OnInit, OnDestroy {
   fixedRate = 1.1;
   currentFixedRate = 1.1;
   public intervallTimer = interval(3000);
+  customRate: number | undefined;
 
   constructor(
     private conversionService: ConversionService
@@ -26,8 +27,8 @@ export class ConversionComponent implements OnInit, OnDestroy {
     });
   }
 
-  convertedValue(valueToConvert: number | undefined, currentFixedRate: number): number | string {
-    return this.conversionService.convert(valueToConvert, currentFixedRate);
+  convertedValue(valueToConvert: number | undefined, currentFixedRate: number, customRate: number | undefined): number | string {
+    return this.conversionService.convert(valueToConvert, currentFixedRate, customRate);
   }
 
   ngOnDestroy(): void {
