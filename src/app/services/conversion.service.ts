@@ -1,35 +1,34 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+
+const ACCEPTABLE_VARIATION = 2;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConversionService {
+  constructor() {}
 
-  constructor() {
-  }
-
-  convert(valueToConvert: number | undefined, fixedRate: number, customRate: number | undefined): number {
+  public convert(
+    valueToConvert: number | undefined,
+    fixedRate: number,
+    customRate: number | undefined
+  ): number {
     if (customRate && this.isCorrectVariation(customRate, fixedRate)) {
       return this.calculateConversion(valueToConvert, customRate);
-    } else {
-      return this.calculateConversion(valueToConvert, fixedRate);
     }
+    return this.calculateConversion(valueToConvert, fixedRate);
   }
 
-  calculateConversion(value: number | undefined, rate: number): number {
-    if (value && rate) {
-      return value * rate;
-    } else {
-      return 0;
-    }
+  private calculateConversion(value: number | undefined, rate: number): number {
+    return value && rate ? value * rate : 0;
   }
 
-  public isCorrectVariation(customRate: number, fixedRate: any): boolean {
-    const variation = Math.abs(((customRate / fixedRate) - 1) * 100);
-    return variation <= 2;
+  private isCorrectVariation(customRate: number, fixedRate: any): boolean {
+    const variation = Math.abs((customRate / fixedRate - 1) * 100);
+    return variation <= ACCEPTABLE_VARIATION;
   }
 
-  setFixedRate(fixedRate: number): number {
+  public setFixedRate(fixedRate: number): number {
     const randomNumber = (Math.random() - 0.5) / 10;
     return fixedRate + randomNumber;
   }

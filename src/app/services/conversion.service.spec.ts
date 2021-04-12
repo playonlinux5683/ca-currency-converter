@@ -1,6 +1,5 @@
-import {TestBed} from '@angular/core/testing';
-
-import {ConversionService} from './conversion.service';
+import { TestBed } from '@angular/core/testing';
+import { ConversionService } from './conversion.service';
 
 describe('ConversionService', () => {
   let service: ConversionService;
@@ -33,15 +32,27 @@ describe('ConversionService', () => {
     expect(service.setFixedRate(fixedRate)).not.toEqual(fixedRate);
   });
 
-  it('isCorrectVariation should return false', () => {
+  it('calculateConversion should be called with valueToConvert & fixedRate', () => {
+    const valueToConvert = 2;
     const fixedRate = 1.1;
     const customRate = 2.1;
-    expect(service.isCorrectVariation(customRate, fixedRate)).toBeFalse();
+    const spyCalculate = spyOn<any>(
+      service,
+      'calculateConversion'
+    ).and.callThrough();
+    service.convert(valueToConvert, fixedRate, customRate);
+    expect(spyCalculate).toHaveBeenCalledOnceWith(valueToConvert, fixedRate);
   });
 
-  it('isCorrectVariation should return false', () => {
+  it('calculateConversion should be called with valueToConvert & customRate', () => {
+    const valueToConvert = 2;
     const fixedRate = 1.1;
     const customRate = 1.12;
-    expect(service.isCorrectVariation(customRate, fixedRate)).toBeTrue();
+    const spyCalculate = spyOn<any>(
+      service,
+      'calculateConversion'
+    ).and.callThrough();
+    service.convert(valueToConvert, fixedRate, customRate);
+    expect(spyCalculate).toHaveBeenCalledOnceWith(valueToConvert, customRate);
   });
 });
