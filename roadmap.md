@@ -1,0 +1,3 @@
+- ajouter un graphique pour illustrer les variations du taux dans le temps
+- ajouter plusieurs devises 
+- ajouter un indicateur de couleur pour indiquer le taux utilisé en temps réel lors de la conversion
